@@ -15,7 +15,7 @@ function generateTaskId() {
   return newId;
 }
 
-// Todo: create a function to create a task card
+// * Function to create a task card.
 function createTaskCard(task) {
   // Create a new task / card element.
   const card = document.createElement("div");
@@ -44,6 +44,8 @@ function renderTaskList() {
   // Clear existing cards.
   todoContainer.innerHTML = "";
 
+  // ! Error in Console - Cannot read properties of null.
+  // ! Uncaught TypeError.
   taskList.forEach((task) => {
     const card = createTaskCard(task);
     todoContainer.appendChild(card);
@@ -60,8 +62,43 @@ function renderTaskList() {
   });
 }
 
-// Todo: create a function to handle adding a new task
-function handleAddTask(event) {}
+// * Function to handle adding a new task.
+function handleAddTask(event) {
+  event.preventDefault();
+
+  // Get form input values.
+  // Pull Id's based on key tags.
+  const taskName = document.getElementById("taskName").value;
+  const taskDescription = document.getElementById("taskDescription").value;
+  const taskDueDate = document.getElementById("taskDueDate").value;
+
+  // Create new task object.
+  const newTask = {
+    id: generateTaskId().toString(),
+    name: taskName,
+    description: taskDescription,
+    dueDate: taskDueDate,
+  };
+
+  // Push new task to task list.
+  taskList.push(newTask);
+  // Update tasks in localStorage.
+  // Stringify to allow for storage of object.
+  localStorage.setItem("tasks", JSON.stringify(taskList));
+
+  // Render updated task list.
+  // Recall Function.
+  renderTaskList();
+
+  // Clear form inputs.
+  // Set to blank string.
+  document.getElementById("taskName").value = "";
+  document.getElementById("taskDescription").value = "";
+  document.getElementById("taskDueDate").value = "";
+
+  // Close modal.
+  $("#formModal").modal("hide");
+}
 
 // * Function to handle deleting a task.
 function handleDeleteTask(event) {
@@ -80,9 +117,22 @@ function handleDeleteTask(event) {
   }
 }
 
-// Todo: create a function to handle dropping a task into a new status lane
-function handleDrop(event, ui) {}
+// * Function to handle dropping a task into a new status lane.
+function handleDrop(event, ui) {
+  const taskId = ui.draggable[0].dataset.taskId;
+  const newLaneId = event.target.id;
+  const taskIndex = taskList.findIndex((task) => task.id === taskId);
 
+  // Update status based on lane ID.
+  taskList[taskIndex].status = newLaneId;
+  // Update tasks in localStorage.
+  localStorage.setItem("tasks", JSON.stringify(taskList));
+
+  // Render updated task list.
+  renderTaskList();
+}
+
+// ! Reference to error here in console.. Not sure what yet.
 // * When the page loads, render the task list, add event listeners, make lanes droppable.
 $(document).ready(function () {
   // Render initial task list.
