@@ -12,7 +12,7 @@ function generateTaskId() {
 function createTaskCard(task) {
   // Generates elements for a card.
   const card = `
-    <div class="card mb-3" id="task-${task.id}">
+    <div class="draggable card mb-3" id="task-${task.id}">
       <div class="card-body">
         <h5 class="card-title">${task.name}</h5>
         <p class="card-text">${task.description}</p>
@@ -46,8 +46,9 @@ function renderTaskList() {
 
   // Make task cards draggable using jQuery UI.
   // Revert card to original position if dropped outside droppable area.
-  $(".card").draggable({
-    revert: "invalid",
+  $(".draggable").draggable({
+    // ! Might be it
+    /* revert: "invalid", */
     start: function (event, ui) {
       // Increase z-index while dragging for visibility.
       $(this).css("z-index", "10000");
@@ -122,7 +123,9 @@ function handleDrop(event, ui) {
   // Extract task id from card id.
   const cardId = ui.draggable.attr("id").split("-")[1];
   // Get new status from target lane id.
-  const newStatus = $(this).attr("id");
+  const newStatus = event.target.id;
+  console.log(event.target);
+
   // Find index of task in taskList.
   const taskIndex = taskList.findIndex((task) => task.id === parseInt(cardId));
 
