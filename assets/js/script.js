@@ -11,8 +11,30 @@ function generateTaskId() {
 // * Function to create a task card.
 function createTaskCard(task) {
   // Generates elements for a card.
+  const currentDate = dayjs();
+  const dueDate = dayjs(task.dueDate);
+  // Calculate difference in days
+  const diffInDays = dueDate.diff(currentDate, "day");
+
+  // Determine the appropriate styling based on due date
+  let cardColor = "";
+  if (diffInDays < 0) {
+    // Past due
+    cardColor = "red";
+  } else if (diffInDays === 0 || diffInDays === 1) {
+    // Due today or tomorrow
+    cardColor = "yellow";
+  } else if (diffInDays <= 7) {
+    // Due within a week but not today or tomorrow
+    cardColor = "blue";
+  } else {
+    // Default styling
+    cardColor = "";
+  }
+
+  // Generates elements for a card.
   const card = `
-    <div class="draggable card mb-3" id="task-${task.id}">
+    <div class="card mb-3 ${cardColor}">
       <div class="card-body">
         <h5 class="card-title">${task.name}</h5>
         <p class="card-text">${task.description}</p>
@@ -47,7 +69,8 @@ function renderTaskList() {
   // Make task cards draggable using jQuery UI.
   // Revert card to original position if dropped outside droppable area.
   $(".draggable").draggable({
-    // ! Might be it
+    // ! Bug that was found with Instructor and TA.
+    // ! Noted here for future usage to avoid.
     /* revert: "invalid", */
     start: function (event, ui) {
       // Increase z-index while dragging for visibility.
