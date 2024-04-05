@@ -59,7 +59,7 @@ If one wanted to pull the repo to examine the project in detail then cloning the
 
 ## Mockup
 
-![Alt text](assets/images/Workflow-Tracker-Screenshot.png)
+![Alt text](assets/images/screenshot.PNG)
 
 ## Features
 
