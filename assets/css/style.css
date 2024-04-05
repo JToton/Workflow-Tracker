@@ -1,8 +1,7 @@
-/* Applied White color & "Reddit Mono" to all Text */
+/* Applied "Reddit Mono" to all Text */
 body {
   font-family: "Reddit Mono", monospace; /* Applying Reddit Mono font */
   font-size: 16px;
-  color: white;
 }
 
 .swim-lanes {
@@ -19,7 +18,7 @@ body {
 
 /* Late Cards Are Styled Red */
 .red {
-  background-color: #c70039;
+  background-color: #ec7063;
 }
 
 /* Today and Tomorrow Cards Are Styled Yellow */

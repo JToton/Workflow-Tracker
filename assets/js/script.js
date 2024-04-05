@@ -84,6 +84,8 @@ function renderTaskList() {
     stop: function (event, ui) {
       $(this).css("z-index", "");
     },
+    // Restrict dragging within the three lanes.
+    containment: ".swim-lanes",
   });
 
   // Make droppable using jQuery UI.
@@ -157,17 +159,23 @@ function handleDrop(event, ui) {
   const cardId = ui.draggable.attr("id").split("-")[1];
   // Get new status from target lane id.
   const newStatus = event.target.id;
-  console.log(event.target);
 
-  // Find index of task in taskList.
-  const taskIndex = taskList.findIndex((task) => task.id === parseInt(cardId));
+  // Check if the drop event occurs within the bounds of the lanes.
+  const isDropValid = ["todo", "in-progress", "done"].includes(newStatus);
 
-  // Update task status based on lane.
-  taskList[taskIndex].status = newStatus;
-  // Update localStorage.
-  localStorage.setItem("tasks", JSON.stringify(taskList));
-  // Render task list.
-  renderTaskList();
+  if (isDropValid) {
+    // Find index of task in taskList.
+    const taskIndex = taskList.findIndex(
+      (task) => task.id === parseInt(cardId)
+    );
+
+    // Update task status based on lane.
+    taskList[taskIndex].status = newStatus;
+    // Update localStorage.
+    localStorage.setItem("tasks", JSON.stringify(taskList));
+    // Render task list.
+    renderTaskList();
+  }
 }
 
 // * On page load: render the task list and add event listeners.
