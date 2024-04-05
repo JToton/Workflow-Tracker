@@ -6,7 +6,7 @@
 
 ## Link to Deployed Application.
 
-• [https://jtoton.github.io/The-Hip-Spot/]
+• [https://jtoton.github.io/Workflow-Tracker/]
 
 ## Table of Contents:
 
